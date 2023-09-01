@@ -1,0 +1,209 @@
+{
+    "name": "tenKolibri:qadocallsinglefields",
+    "situation": "EDIT",
+    "elements": [
+        {
+            "name": "core",
+            "type": "o2mGroup",
+            "elements": [
+                {
+                    "type": "o2mGroup",
+                    "elements": [
+                        {
+                            "name": "appClient:clienttitle",
+                            "type": "string",
+                            "maxLength": 200,
+                            "required": false,
+                            "cardinality": "single",
+                            "rows": 1,
+                            "readonly": false,
+                            "label": "Name",
+                            "description": "07 Invoice Management"
+                        },
+                        {
+                            "name": "appClient:clientdescription",
+                            "type": "string",
+                            "maxLength": 200,
+                            "required": false,
+                            "cardinality": "single",
+                            "rows": 1,
+                            "readonly": false,
+                            "label": "Description"
+                        }
+                    ],
+                    "layout": {
+                        "align": "column"
+                    }
+                }
+            ],
+            "layout": {
+                "align": "row"
+            }
+        },
+        {
+            "name": "data",
+            "type": "o2mGroupStack",
+            "elements": [
+                {
+                    "name": "tenKolibri:required",
+                    "type": "o2mGroup",
+                    "elements": [
+                        {
+                            "name": "tenKolibri:decsinglemin1111max9999required",
+                            "type": "decimal",
+                            "defaultvalue": 12.34,
+                            "maxValue": 99.99,
+                            "minValue": 11.11,
+                            "required": true,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Decimal",
+                            "description": "min 11.11 - max 99.99 - mandatory"
+                        },
+                        {
+                            "name": "tenKolibri:strsinglemin5max10required",
+                            "type": "string",
+                            "maxLength": 11,
+                            "minLength": 5,
+                            "required": true,
+                            "cardinality": "single",
+                            "rows": 1,
+                            "readonly": false,
+                            "label": "String",
+                            "description": "min 5 - max 10 - mandatory"
+                        },
+                        {
+                            "name": "tenKolibri:intsinglemin11max99required",
+                            "type": "integer",
+                            "defaultvalue": 20,
+                            "maxValue": 99,
+                            "minValue": 11,
+                            "required": true,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Integer",
+                            "description": "min 11 - max 999 - mandatory"
+                        },
+                        {
+                            "name": "tenKolibri:datesinglerequired",
+                            "type": "datetime",
+                            "required": true,
+                            "cardinality": "single",
+                            "resolution": "date",
+                            "readonly": false,
+                            "label": "Date1",
+                            "description": "mandatory"
+                        },
+                        {
+                            "name": "tenKolibri:datetimesinglerequired",
+                            "type": "datetime",
+                            "defaultvalue": "2019-04-17T14:59:00.000Z",
+                            "required": true,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Date & time",
+                            "description": "mandatory"
+                        },
+                        {
+                            "name": "tenKolibri:booleanrequiredtrue",
+                            "type": "boolean",
+                            "defaultvalue": false,
+                            "required": true,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Boolean",
+                            "description": "mandatory"
+                        }
+                    ],
+                    "layout": {
+                        "align": "column"
+                    },
+                    "label": "Mandatory fields"
+                },
+                {
+                    "name": "tenKolibri:notrequired",
+                    "type": "o2mGroup",
+                    "elements": [
+                        {
+                            "name": "tenKolibri:strsingle",
+                            "type": "string",
+                            "required": false,
+                            "cardinality": "single",
+                            "classifications": [
+                                "appClient:summary:hidden"
+                            ],
+                            "rows": 1,
+                            "readonly": false,
+                            "label": "String",
+                            "description": "unlimited: lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum lorum ipsum  lorum ipsum"
+                        },
+                        {
+                            "name": "tenKolibri:strregextime",
+                            "type": "string",
+                            "required": false,
+                            "cardinality": "single",
+                            "rows": 1,
+                            "readonly": false,
+                            "label": "Time",
+                            "description": "Time format is 24 hours with hh:mm"
+                        },
+                        {
+                            "name": "tenKolibri:decsingle",
+                            "type": "decimal",
+                            "defaultvalue": 0.0,
+                            "required": false,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Decimal",
+                            "description": "unlimited"
+                        },
+                        {
+                            "name": "tenKolibri:intsingle",
+                            "type": "integer",
+                            "defaultvalue": 0,
+                            "required": false,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Integer",
+                            "description": "unlimited"
+                        },
+                        {
+                            "name": "tenKolibri:datesingle",
+                            "type": "datetime",
+                            "required": false,
+                            "cardinality": "single",
+                            "resolution": "date",
+                            "readonly": false,
+                            "label": "Date2",
+                            "description": "unlimited"
+                        },
+                        {
+                            "name": "tenKolibri:datetimesingle",
+                            "type": "datetime",
+                            "required": false,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Date & time",
+                            "description": "unlimited"
+                        },
+                        {
+                            "name": "tenKolibri:booleannull",
+                            "type": "boolean",
+                            "required": false,
+                            "cardinality": "single",
+                            "readonly": false,
+                            "label": "Boolean Tri-State",
+                            "description": "Null allowed"
+                        }
+                    ],
+                    "layout": {
+                        "align": "column"
+                    },
+                    "label": "Without obligation"
+                }
+            ]
+        }
+    ],
+    "label": "QA-DocAllSingleFields (alt)",
+    "description": "05 Quality Assurance"
+}

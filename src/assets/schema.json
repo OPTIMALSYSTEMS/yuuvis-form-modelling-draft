@@ -1,0 +1,226 @@
+{
+    "$id": "https://yuuvis.com/momentum.form.schema.json",
+    "title": "yM Form Model",
+    "description": "...",
+    "type": "object",
+    "properties": {
+        "name": {
+            "title": "",
+            "type": "string"
+        },
+        "label": {
+            "title": "",
+            "type": "string"
+        },
+        "description": {
+            "title": "",
+            "type": "string"
+        },
+        "situation": {
+            "description": "",
+            "type": "string"
+        },
+        "elements": {
+            "title": "Root containers for the form model",
+            "description": "Should only contain a core section (formGroup) and a data section (formGroupStack)",
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+                {
+                    "$ref": "#/$defs/coreGroup"
+                },
+                {
+                    "$ref": "#/$defs/dataGroup"
+                }
+            ]
+        }
+    },
+    "required": [
+        "name",
+        "elements"
+    ],
+    "$defs": {
+        "coreGroup": {
+            "title": "Core section of the form model",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "enum": [
+                        "core"
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "o2mGroup"
+                    ]
+                },
+                "elements": {
+                    "$ref": "#/$defs/elements"
+                },
+                "layout": {
+                    "$ref": "#/$defs/formGroupLayout"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "elements"
+            ]
+        },
+        "dataGroup": {
+            "title": "Data section of the form model",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "enum": [
+                        "data"
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "o2mGroupStack"
+                    ]
+                },
+                "elements": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/$defs/formGroup"
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "elements"
+            ]
+        },
+        "elements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "oneOf": [
+                    {
+                        "$ref": "#/$defs/formElement"
+                    },
+                    {
+                        "$ref": "#/$defs/formGroup"
+                    },
+                    {
+                        "$ref": "#/$defs/formGroupStack"
+                    }
+                ]
+            }
+        },
+        "formGroup": {
+            "title": "A container that wraps other form elements. ",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Technical name to identify this group",
+                    "type": "string"
+                },
+                "label": {
+                    "title": "Label of the group. In context of a GroupStack this label will be used as the tab label.",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "o2mGroup"
+                    ]
+                },
+                "elements": {
+                    "$ref": "#/$defs/elements"
+                },
+                "layout": {
+                    "$ref": "#/$defs/formGroupLayout"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "elements"
+            ]
+        },
+        "formGroupStack": {
+            "title": "A container that only contains form groups",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "o2mGroupStack"
+                    ]
+                },
+                "elements": {
+                    "$ref": "#/$defs/formGroup"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "elements"
+            ]
+        },
+        "formGroupLayout": {
+            "title": "Settings for laying out elements inside this group",
+            "type": "object",
+            "properties": {
+                "align": {
+                    "enum": [
+                        "row",
+                        "column"
+                    ]
+                }
+            }
+        },
+        "formElement": {
+            "type": "object",
+            "properties": {}
+        },
+        "formElementString": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/$defs/formElementPropertyName"
+                },
+                "cardinality": {
+                    "$ref": "#/$defs/formElementPropertyCardinality"
+                },
+                "classifications": {
+                    "$ref": "#/$defs/formElementPropertyClassifications"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "readonly": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "formElementPropertyName": {
+            "title": "Unique name for the field. This will be used as key when extracting data from the form",
+            "type": "string"
+        },
+        "formElementPropertyCardinality": {
+            "enum": [
+                "single",
+                "multi"
+            ]
+        },
+        "formElementPropertyClassifications": {
+            "title": "Array of classification strings",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}
