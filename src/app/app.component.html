@@ -1,1 +1,15 @@
-<pre><code>{{validationError}}</code></pre>
+<header>yuuvis form modelling
+    <button class="primary" (click)="validate()">Validate</button>
+</header>
+<main>
+    <div class="model">
+        <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+    </div>
+    <div class="result">
+        <ng-container *ngIf="validationRes">
+            <div class="validity" [ngClass]="{invalid: !validationRes.isValid}">{{validationRes.isValid ? 'VALID' :
+                'INVALID'}}</div>
+            <pre *ngIf="!!validationErrors"><code>{{validationErrors}}</code></pre>
+        </ng-container>
+    </div>
+</main>

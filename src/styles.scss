@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'node_modules/@yuuvis/styles/yuuvis.min.css';
+
+body {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    inset:0;
+}

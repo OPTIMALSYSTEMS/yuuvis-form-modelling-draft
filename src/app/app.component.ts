@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import * as requestSchema from '../assets/schema.json';
-import * as testModel from '../assets/test-model.json';
-import Ajv from 'ajv';
+import { switchMap } from 'rxjs';
+import { SchemaService } from './schema.service';
+import { ValidationResponse } from './schema.interface';
 
 @Component({
   selector: 'app-root',
@@ -9,28 +9,42 @@ import Ajv from 'ajv';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
-  validationError?: any;
-
-  constructor(protected ajv: Ajv) {
-    this.validate(requestSchema, testModel);
+  private _code?: string;
+  set code(m: any) {
+    this._code = m;
+    this._model = JSON.parse(m);
+  }
+  get code() {
+    return this._code;
   }
 
-  public validate(schema: any, data: any) {
-    let isValid = false;
-    try {
-      isValid = this.ajv.validate(schema, data);
-    }
-    catch(e) {
-console.log(e);
+  editorOptions = { language: 'json' };
+  validationRes?: ValidationResponse;
+  validationErrors?: string;
 
-    }
-    if (!isValid) {
-      const errorMessages = this.ajv.errorsText();
-      this.validationError = JSON.stringify(this.ajv.errors, null, 2);
-      console.log(`Validation Error. ${errorMessages}`);
-      // throw new Error(`Validation Error. ${errorMessages}`);
-    }
-    return data;
+  private _model?: any;
+  set model(m: any) {
+    this._model = m;
+    this._code = JSON.stringify(m, null, 2);
+  }
+  get model() {
+    return this._model;
+  }
+
+  constructor(private schemaService: SchemaService) {
+    this.schemaService._fetchDemoModel().subscribe({
+      next: (res) => {
+        this.model = res;
+      },
+    });
+  }
+
+  public validate() {
+    this.schemaService.validateModel(this.model).subscribe({
+      next: (res) => {
+        this.validationRes = res;        
+        this.validationErrors = res?.errors ? JSON.stringify(res.errors, null, 2) : undefined;
+      },
+    });
   }
 }

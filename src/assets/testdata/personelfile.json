@@ -1,0 +1,153 @@
+
+{
+    "name": "appPersonalfile:pfpersonalfile",
+    "situation": "EDIT",
+    "script": "//pfname = scope.data[appPersonalfile:pfname];\r\nsituation = scope.situation;\r\nm = scope.model;\r\na = m['appPersonalfile:pfname'].name;\r\na = scope.model['appPersonalfile:pfname'].name;\r\nb = scope.model['appPersonalfile:pfname'].label;\r\nc = scope.model['appPersonalfile:pfname'].description;\r\nd = scope.model['appPersonalfile:pfname'].cardinality;\r\ne = scope.model['appPersonalfile:pfname'].type;\r\nf = scope.model['appPersonalfile:pfname'].value;\r\ng = scope.model['appPersonalfile:pfname'].readonly;\r\n//scope.model['appPersonalfile:pfname'].readonly = !g;\r\n//g = scope.model['appPersonalfile:pfname'].readonly;\r\nh = scope.model['appPersonalfile:pfname'].required;\r\n//scope.model['appPersonalfile:pfname'].required = !h\r\n//h = scope.model['appPersonalfile:pfname'].required;\r\ni = scope.data['system:objectId'];\r\n// scope.model['appPersonalfile:pfname'].onchange = writetitle;\r\nscope.model['appPersonalfile:pfname'].onblur = rewritetitle;\r\nscope.model['appPersonalfile:pffirstname'].onchange = writetitle;\r\nscope.model['appPersonalfile:pfclass'].onchange = writedescription;\r\nconsole.log(m)\r\nfunction writetitle() {\r\n    console.log('WAAAAAAAAAAAAAAAAA')\r\n    scope.model['appClient:clienttitle'].value = scope.model['appPersonalfile:pfname'].value + ', ' + scope.model['appPersonalfile:pffirstname'].value;\r\n};\r\nfunction rewritetitle() {\r\n    console.log('BOOOOOOOOO')\r\n    scope.model['appPersonalfile:pfname'].value = 'BLAAAAAAAAAAAAAAAAA';\r\n};\r\nfunction writedescription() {\r\n    scope.model['appClient:clientdescription'].value = scope.model['appPersonalfile:pfclass'].value;\r\n}",
+    "elements": [
+        {
+            "name": "core",
+            "type": "o2mGroup",
+            "elements": [
+                {
+                    "type": "o2mGroupStack",
+                    "elements": [
+                        {
+                            "name": "appPersonalfile:data",
+                            "type": "o2mGroup",
+                            "elements": [
+                                {
+                                    "name": "appPersonalfile:pfname",
+                                    "type": "string",
+                                    "maxLength": 30,
+                                    "minLength": 3,
+                                    "required": true,
+                                    "cardinality": "single",
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Surname"
+                                },
+                                {
+                                    "name": "appPersonalfile:pffirstname",
+                                    "type": "string",
+                                    "maxLength": 30,
+                                    "minLength": 3,
+                                    "required": true,
+                                    "cardinality": "multi",
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "First name"
+                                },
+                                {
+                                    "name": "appPersonalfile:pfclass",
+                                    "type": "string",
+                                    "required": true,
+                                    "cardinality": "single",
+                                    "classifications": [
+                                        "catalog[Employee,Freelancer,Volunteer,Trainee]"
+                                    ],
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Class",
+                                    "description": "Statischer catalog"
+                                },
+                                {
+                                    "name": "appPersonalfile:pfclassedit",
+                                    "type": "string",
+                                    "required": true,
+                                    "cardinality": "single",
+                                    "classifications": [
+                                        "dynamic:catalog[appPersonalfile:class]"
+                                    ],
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Class",
+                                    "description": "Dynamic catalog"
+                                },
+                                {
+                                    "name": "appPersonalfile:pfgermancountry",
+                                    "type": "string",
+                                    "required": false,
+                                    "cardinality": "single",
+                                    "classifications": [
+                                        "dynamic:catalog[germancountry]"
+                                    ],
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Country"
+                                },
+                                {
+                                    "name": "appPersonalfile:pfgermancountry3",
+                                    "type": "string",
+                                    "required": false,
+                                    "cardinality": "single",
+                                    "classifications": [
+                                        "dynamic:catalog[germancountry]"
+                                    ],
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Country3.1"
+                                },
+                                {
+                                    "name": "appPersonalfile:pfentrydate",
+                                    "type": "datetime",
+                                    "required": true,
+                                    "cardinality": "single",
+                                    "resolution": "date",
+                                    "readonly": false,
+                                    "label": "Entry date"
+                                }
+                            ],
+                            "layout": {
+                                "align": "column"
+                            },
+                            "label": "Personnel data"
+                        },
+                        {
+                            "name": "appClient:titledescription",
+                            "type": "o2mGroup",
+                            "elements": [
+                                {
+                                    "name": "appClient:clienttitle",
+                                    "type": "string",
+                                    "maxLength": 200,
+                                    "required": false,
+                                    "cardinality": "single",
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Name",
+                                    "description": "07 Invoice Management"
+                                },
+                                {
+                                    "name": "appClient:clientdescription",
+                                    "type": "string",
+                                    "maxLength": 200,
+                                    "required": false,
+                                    "cardinality": "single",
+                                    "rows": 1,
+                                    "readonly": false,
+                                    "label": "Description"
+                                }
+                            ],
+                            "layout": {
+                                "align": "column"
+                            },
+                            "label": "Name & Description"
+                        }
+                    ],
+                    "layout": {
+                        "align": "row"
+                    }
+                }
+            ],
+            "layout": {
+                "align": "row"
+            }
+        },
+        {
+            "name": "data",
+            "type": "o2mGroupStack"
+        }
+    ],
+    "label": "Personnel file",
+    "description": "02 Personnel Management (FSOT)"
+}

@@ -1,226 +1,607 @@
 {
-    "$id": "https://yuuvis.com/momentum.form.schema.json",
-    "title": "yM Form Model",
-    "description": "...",
-    "type": "object",
-    "properties": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Model",
+  "definitions": {
+    "Model": {
+      "type": "object",
+      "properties": {
         "name": {
-            "title": "",
-            "type": "string"
+          "type": "string"
         },
         "label": {
-            "title": "",
-            "type": "string"
+          "type": "string"
+        },
+        "script": {
+          "type": "string"
         },
         "description": {
-            "title": "",
-            "type": "string"
+          "type": "string"
         },
         "situation": {
-            "description": "",
-            "type": "string"
+          "type": "string",
+          "enum": [
+            "EDIT",
+            "SEARCH",
+            "CREATE"
+          ]
         },
         "elements": {
-            "title": "Root containers for the form model",
-            "description": "Should only contain a core section (formGroup) and a data section (formGroupStack)",
-            "type": "array",
-            "minItems": 2,
-            "maxItems": 2,
-            "items": [
-                {
-                    "$ref": "#/$defs/coreGroup"
-                },
-                {
-                    "$ref": "#/$defs/dataGroup"
-                }
-            ]
+          "type": "array",
+          "minItems": 2,
+          "items": [
+            {
+              "$ref": "#/definitions/CoreSection"
+            },
+            {
+              "$ref": "#/definitions/DataSection"
+            }
+          ],
+          "maxItems": 2
         }
-    },
-    "required": [
+      },
+      "required": [
         "name",
+        "situation",
         "elements"
-    ],
-    "$defs": {
-        "coreGroup": {
-            "title": "Core section of the form model",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "enum": [
-                        "core"
-                    ]
-                },
-                "type": {
-                    "enum": [
-                        "o2mGroup"
-                    ]
-                },
-                "elements": {
-                    "$ref": "#/$defs/elements"
-                },
-                "layout": {
-                    "$ref": "#/$defs/formGroupLayout"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "elements"
-            ]
+      ],
+      "additionalProperties": false
+    },
+    "CoreSection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "core"
         },
-        "dataGroup": {
-            "title": "Data section of the form model",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "enum": [
-                        "data"
-                    ]
-                },
-                "type": {
-                    "enum": [
-                        "o2mGroupStack"
-                    ]
-                },
-                "elements": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/$defs/formGroup"
-                    }
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "elements"
-            ]
+        "label": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "o2mGroup"
         },
         "elements": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-                "type": "object",
-                "oneOf": [
-                    {
-                        "$ref": "#/$defs/formElement"
-                    },
-                    {
-                        "$ref": "#/$defs/formGroup"
-                    },
-                    {
-                        "$ref": "#/$defs/formGroupStack"
-                    }
-                ]
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Group"
+              },
+              {
+                "$ref": "#/definitions/Stack"
+              },
+              {
+                "$ref": "#/definitions/FormElementBoolean"
+              },
+              {
+                "$ref": "#/definitions/FormElementDatetime"
+              },
+              {
+                "$ref": "#/definitions/FormElementDecimal"
+              },
+              {
+                "$ref": "#/definitions/FormElementInteger"
+              },
+              {
+                "$ref": "#/definitions/FormElementString"
+              },
+              {
+                "$ref": "#/definitions/FormElementTable"
+              }
+            ]
+          }
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "align": {
+              "type": "string",
+              "enum": [
+                "row",
+                "column"
+              ]
             }
-        },
-        "formGroup": {
-            "title": "A container that wraps other form elements. ",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Technical name to identify this group",
-                    "type": "string"
-                },
-                "label": {
-                    "title": "Label of the group. In context of a GroupStack this label will be used as the tab label.",
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "o2mGroup"
-                    ]
-                },
-                "elements": {
-                    "$ref": "#/$defs/elements"
-                },
-                "layout": {
-                    "$ref": "#/$defs/formGroupLayout"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "elements"
-            ]
-        },
-        "formGroupStack": {
-            "title": "A container that only contains form groups",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "o2mGroupStack"
-                    ]
-                },
-                "elements": {
-                    "$ref": "#/$defs/formGroup"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "elements"
-            ]
-        },
-        "formGroupLayout": {
-            "title": "Settings for laying out elements inside this group",
-            "type": "object",
-            "properties": {
-                "align": {
-                    "enum": [
-                        "row",
-                        "column"
-                    ]
-                }
-            }
-        },
-        "formElement": {
-            "type": "object",
-            "properties": {}
-        },
-        "formElementString": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "$ref": "#/$defs/formElementPropertyName"
-                },
-                "cardinality": {
-                    "$ref": "#/$defs/formElementPropertyCardinality"
-                },
-                "classifications": {
-                    "$ref": "#/$defs/formElementPropertyClassifications"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "readonly": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "name"
-            ]
-        },
-        "formElementPropertyName": {
-            "title": "Unique name for the field. This will be used as key when extracting data from the form",
-            "type": "string"
-        },
-        "formElementPropertyCardinality": {
-            "enum": [
-                "single",
-                "multi"
-            ]
-        },
-        "formElementPropertyClassifications": {
-            "title": "Array of classification strings",
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+          },
+          "additionalProperties": false
         }
+      },
+      "required": [
+        "elements",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "o2mGroup"
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Group"
+              },
+              {
+                "$ref": "#/definitions/Stack"
+              },
+              {
+                "$ref": "#/definitions/FormElementBoolean"
+              },
+              {
+                "$ref": "#/definitions/FormElementDatetime"
+              },
+              {
+                "$ref": "#/definitions/FormElementDecimal"
+              },
+              {
+                "$ref": "#/definitions/FormElementInteger"
+              },
+              {
+                "$ref": "#/definitions/FormElementString"
+              },
+              {
+                "$ref": "#/definitions/FormElementTable"
+              }
+            ]
+          }
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "align": {
+              "type": "string",
+              "enum": [
+                "row",
+                "column"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "elements"
+      ],
+      "additionalProperties": false
+    },
+    "Stack": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "o2mGroupStack"
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "elements"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementBoolean": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "defaultvalue": {
+          "type": "boolean"
+        },
+        "tristate": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementDatetime": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "datetime"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "defaultvalue": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "resolution": {
+          "type": "string",
+          "const": "date"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementDecimal": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "decimal"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "defaultvalue": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "maxValue": {
+          "type": "number"
+        },
+        "minValue": {
+          "type": "number"
+        },
+        "precision": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "grouping": {
+          "type": "boolean"
+        },
+        "pattern": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementInteger": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "integer"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "defaultvalue": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "maxValue": {
+          "type": "number"
+        },
+        "minValue": {
+          "type": "number"
+        },
+        "precision": {
+          "type": "number"
+        },
+        "grouping": {
+          "type": "boolean"
+        },
+        "pattern": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementString": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "defaultvalue": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "maxLength": {
+          "type": "number"
+        },
+        "minLength": {
+          "type": "number"
+        },
+        "rows": {
+          "type": "number"
+        },
+        "options": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "regex": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "FormElementTable": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "table"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "classifications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "cardinality",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "DataSection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "data"
+        },
+        "type": {
+          "type": "string",
+          "const": "o2mGroupStack"
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        }
+      },
+      "required": [
+        "elements",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
     }
+  }
 }

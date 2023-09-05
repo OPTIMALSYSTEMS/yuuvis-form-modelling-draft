@@ -1,0 +1,43 @@
+:host {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+
+    header {
+        background-color: var(--color-admin-primary);
+        color: #fff;
+        padding: var(--app-pane-padding);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    main {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+        .model {
+            flex: 1;
+            ngx-monaco-editor {
+                height: 100%;
+            }
+        }
+        .result {
+            flex: 0 0 33%;
+            display: flex;
+            flex-flow: column;
+            overflow: hidden;
+            .validity {
+                padding: var(--app-pane-padding);
+                background-color: var(--color-success);
+
+                &.invalid {
+                    background-color: var(--color-error);
+                }
+            }
+            pre {
+                flex: 1;
+                overflow-y: auto;
+            }
+        }
+    }
+}
