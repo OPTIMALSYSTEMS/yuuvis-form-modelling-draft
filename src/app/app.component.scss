@@ -29,7 +29,7 @@
             .validity {
                 padding: var(--app-pane-padding);
                 background-color: var(--color-success);
-
+color: #fff;
                 &.invalid {
                     background-color: var(--color-error);
                 }
