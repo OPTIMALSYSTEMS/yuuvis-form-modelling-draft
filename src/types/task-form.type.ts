@@ -30,7 +30,7 @@ export interface TaskOutcome {
    * alongside with the tasks form. Values of all rendered forms will be put into
    * the process variables
    */
-  model?: any;
+  model?: Model | string;
   /**
    * Outcomes will be rendered as primary buttons. If you want an outcome
    * to be less prominent you could set this property to 'true'

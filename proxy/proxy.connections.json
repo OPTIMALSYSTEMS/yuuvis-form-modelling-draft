@@ -1,0 +1,8 @@
+{
+  "default": {
+    "tenant": "",
+    "userName": "",
+    "password": "",
+    "target": ""
+  }
+}

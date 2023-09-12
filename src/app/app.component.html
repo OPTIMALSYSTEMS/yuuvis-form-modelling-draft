@@ -1,9 +1,14 @@
 <header>yuuvis form modelling
     <button class="primary" (click)="validate()">Validate</button>
+    <button class="primary" (click)="setPreviewInput()">Preview</button>
 </header>
 <main>
     <div class="model">
-        <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+        <h2>model</h2>
+        <ngx-monaco-editor id="editor-model" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+        <h2>outcomes</h2>
+        <ngx-monaco-editor id="editor-outcomes" [options]="editorOptions2"
+            [(ngModel)]="strOutcomes"></ngx-monaco-editor>
     </div>
     <div class="result">
         <ng-container *ngIf="validationRes">
@@ -11,5 +16,13 @@
                 'INVALID'}}</div>
             <pre *ngIf="!!validationErrors"><code>{{validationErrors}}</code></pre>
         </ng-container>
+    </div>
+
+
+    <div *ngIf="previewInput" class="preview">
+        <header>
+            <button class="secondary" (click)="previewInput = undefined">x</button>
+        </header>
+        <app-preview [input]="previewInput"></app-preview>
     </div>
 </main>
